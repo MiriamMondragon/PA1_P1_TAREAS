@@ -5,6 +5,7 @@
  */
 package hn.uth.pa1.parcial1.tarea1.app;
 
+import hn.uth.pa1.parcial1.tarea1.app.objetos.Operacion;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,11 +21,15 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
         initComponents();
         FrmBienvenidaMiriamMondragon frameBienvenida = new FrmBienvenidaMiriamMondragon();
         lblNombre.setText(frameBienvenida.nombre);
+        actualizarHistorial();
+        lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
     }
     
     public static double a = 0.0;
     public static double b = 0.0;
     public static double resultado = 0.0;
+    Operacion operacionActual;
+    public static int filaSeleccionada = -1;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,6 +79,7 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
 
         lblCalulosRealizados.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblCalulosRealizados.setForeground(new java.awt.Color(0, 153, 102));
+        lblCalulosRealizados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCalulosRealizados.setText(" ");
 
         tblHistorial.setModel(new javax.swing.table.DefaultTableModel(
@@ -90,10 +96,21 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
                 "Operación:", "Resultado", "Signo:"
             }
         ));
+        tblHistorial.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblHistorial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHistorialMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblHistorial);
 
         btnQuitar.setBackground(new java.awt.Color(153, 153, 153));
         btnQuitar.setText("Quitar");
+        btnQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarActionPerformed(evt);
+            }
+        });
 
         lblA.setText("A:");
 
@@ -109,6 +126,11 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
 
         btnActualizar.setBackground(new java.awt.Color(153, 153, 153));
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnSumar.setBackground(new java.awt.Color(153, 153, 153));
         btnSumar.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
@@ -338,47 +360,111 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
 
     private void btnSumarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSumarActionPerformed
         // TODO add your handling code here:
-        a = conversion(txtA.getText());
-        b = conversion(txtB.getText());
-        resultado = a + b;
-        lblRespuesta.setText(String.valueOf(resultado));
+        if(comprobacion(txtA.getText(), txtB.getText()) == true){
+            a = Double.parseDouble(txtA.getText());
+            b = Double.parseDouble(txtB.getText());
+            resultado = a + b;
+            lblRespuesta.setText(String.valueOf(resultado));
+            
+            operacionActual = new Operacion(a, b, "+", resultado);
+            operacionController.agregarOperacionLista(operacionActual);
+            actualizarHistorial();
+            lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+        }else {
+            lblRespuesta.setText("");
+        }
     }//GEN-LAST:event_btnSumarActionPerformed
 
     private void btnRestarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestarActionPerformed
         // TODO add your handling code here:
-        a = conversion(txtA.getText());
-        b = conversion(txtB.getText());
-        resultado = a - b;
-        lblRespuesta.setText(String.valueOf(resultado));
+        if(comprobacion(txtA.getText(), txtB.getText()) == true){
+            a = Double.parseDouble(txtA.getText());
+            b = Double.parseDouble(txtB.getText());
+            resultado = a - b;
+            lblRespuesta.setText(String.valueOf(resultado));
+            
+            operacionActual = new Operacion(a, b, "-", resultado);
+            operacionController.agregarOperacionLista(operacionActual);
+            actualizarHistorial();
+            lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+        }else {
+            lblRespuesta.setText("");
+        }
     }//GEN-LAST:event_btnRestarActionPerformed
 
     private void btnDividirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDividirActionPerformed
         // TODO add your handling code here:
-        a = conversion(txtA.getText());
-        b = conversion(txtB.getText());
-        if(b != 0){
-            resultado = a / b;
-            lblRespuesta.setText(String.valueOf(resultado));
-        }else{
-            lblRespuesta.setText("No Definido");
+        if(comprobacion(txtA.getText(), txtB.getText()) == true){
+            a = Double.parseDouble(txtA.getText());
+            b = Double.parseDouble(txtB.getText());
+            if(b != 0){
+                resultado = a / b;
+                lblRespuesta.setText(String.valueOf(resultado));
+                
+                operacionActual = new Operacion(a, b, "/", resultado);
+                operacionController.agregarOperacionLista(operacionActual);
+                actualizarHistorial();
+                lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+            }else{
+                lblRespuesta.setText("No Definido");
+            }
+        }else {
+            lblRespuesta.setText("");
         }
     }//GEN-LAST:event_btnDividirActionPerformed
 
     private void btnMultiplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultiplicarActionPerformed
         // TODO add your handling code here:
-        a = conversion(txtA.getText());
-        b = conversion(txtB.getText());
-        resultado = a * b;
-        lblRespuesta.setText(String.valueOf(resultado));
+       if(comprobacion(txtA.getText(), txtB.getText()) == true){
+            a = Double.parseDouble(txtA.getText());
+            b = Double.parseDouble(txtB.getText());
+            resultado = a * b;
+            lblRespuesta.setText(String.valueOf(resultado));
+            
+            operacionActual = new Operacion(a, b, "*", resultado);
+            operacionController.agregarOperacionLista(operacionActual);
+            actualizarHistorial();
+            lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+        }else {
+            lblRespuesta.setText("");
+        }
     }//GEN-LAST:event_btnMultiplicarActionPerformed
 
     private void btnPotenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotenciaActionPerformed
         // TODO add your handling code here:
-        a = conversion(txtA.getText());
-        b = conversion(txtB.getText());
-        resultado = Math.pow(a, b);
-        lblRespuesta.setText(String.valueOf(resultado));
+        if(comprobacion(txtA.getText(), txtB.getText()) == true){
+            a = Double.parseDouble(txtA.getText());
+            b = Double.parseDouble(txtB.getText());
+            resultado = Math.pow(a, b);
+            lblRespuesta.setText(String.valueOf(resultado));
+            
+            operacionActual = new Operacion(a, b, "^", resultado);
+            operacionController.agregarOperacionLista(operacionActual);
+            actualizarHistorial();
+            lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+        }else {
+            lblRespuesta.setText("");
+        }
     }//GEN-LAST:event_btnPotenciaActionPerformed
+
+    private void tblHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHistorialMouseClicked
+        // TODO add your handling code here:
+        filaSeleccionada = tblHistorial.getSelectedRow();
+        //System.out.println(filaSeleccionada);
+    }//GEN-LAST:event_tblHistorialMouseClicked
+
+    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+        // TODO add your handling code here:
+        operacionController.borrarOperacion(filaSeleccionada);
+        actualizarHistorial();
+        lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+    }//GEN-LAST:event_btnQuitarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        operacionController.reescribirOperacion(filaSeleccionada, operacionActual);
+        actualizarHistorial();
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -416,14 +502,25 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
         });
     }
     
-    public double conversion(String texto){
-        double numero = 0.0;
+    private boolean comprobacion(String texto1, String texto2){
+        boolean esNumero = false;
         try {
-            numero = Double.parseDouble(texto);
+            Double.parseDouble(texto1);
+            Double.parseDouble(texto2);
+            esNumero = true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un número en cada campo");
         }
-        return numero;
+        return esNumero;
+    }
+    
+    private void actualizarHistorial(){
+        tblHistorial.setModel(new javax.swing.table.DefaultTableModel(
+            operacionController.getListaOperacionesComoArreglo(),
+            new String [] {
+                "Operación", "Resultado", "Signo"
+            }
+        ));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,7 +5,7 @@
  */
 package hn.uth.pa1.parcial1.tarea1.app;
 
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 
 /**
  *
@@ -14,7 +14,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 public class utilMiriamMondragon {
 
     public static void mostrarFormulario(javax.swing.JFrame formulario) {
-        formulario.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        formulario.setDefaultCloseOperation(HIDE_ON_CLOSE);
         formulario.setVisible(true);
     }
 }

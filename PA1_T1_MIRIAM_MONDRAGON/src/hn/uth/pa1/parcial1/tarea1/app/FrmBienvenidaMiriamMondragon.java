@@ -115,7 +115,8 @@ public class FrmBienvenidaMiriamMondragon extends javax.swing.JFrame {
         if(nombre.equals("")){
             JOptionPane.showMessageDialog(this, "Por favor ingrese su nombre");
         }else {
-            utilMiriamMondragon.mostrarFormulario(new FrmCalculadoraMiriamMondragon());
+            FrmCalculadoraMiriamMondragon form = new FrmCalculadoraMiriamMondragon();
+            utilMiriamMondragon.mostrarFormulario(form);
         }
     }//GEN-LAST:event_btnEntrarActionPerformed
 
