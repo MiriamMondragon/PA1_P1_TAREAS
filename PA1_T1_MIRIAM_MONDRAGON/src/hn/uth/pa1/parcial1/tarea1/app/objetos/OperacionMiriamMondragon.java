@@ -56,7 +56,7 @@ public class OperacionMiriamMondragon {
     
     @Override
     public String toString() {
-        return "Operacion{" + "numero1=" + numero1 + ", numero2=" + numero2 + ", signoOperacion=" + signoOperacion + ", resultado=" + resultado + '}';
+        return "Operacion: " + "Numero 1: " + numero1 + ", Numero 2: " + numero2 + ", Signo de la Operacion: " + signoOperacion + ", Resultado: " + resultado;
     }
     
 }

@@ -19,8 +19,8 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
      */
     public FrmCalculadoraMiriamMondragon() {
         initComponents();
-        FrmBienvenidaMiriamMondragon frameBienvenida = new FrmBienvenidaMiriamMondragon();
-        lblNombre.setText(frameBienvenida.nombre);
+        FrmBienvenidaMiriamMondragon formularioBienvenida = new FrmBienvenidaMiriamMondragon();
+        lblNombre.setText(formularioBienvenida.nombre);
         actualizarHistorial();
         lblCalulosRealizados.setText(String.valueOf(operacionControllerMiriamMondragon.tamanoLista()));
     }
@@ -439,7 +439,6 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
     private void tblHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHistorialMouseClicked
         // TODO add your handling code here:
         filaSeleccionada = tblHistorial.getSelectedRow();
-        //System.out.println(filaSeleccionada);
     }//GEN-LAST:event_tblHistorialMouseClicked
 
     private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed

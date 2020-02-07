@@ -17,4 +17,5 @@ public class utilMiriamMondragon {
         formulario.setDefaultCloseOperation(HIDE_ON_CLOSE);
         formulario.setVisible(true);
     }
+    
 }
