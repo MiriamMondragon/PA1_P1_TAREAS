@@ -5,7 +5,7 @@
  */
 package hn.uth.pa1.parcial1.tarea1.app;
 
-import hn.uth.pa1.parcial1.tarea1.app.objetos.Operacion;
+import hn.uth.pa1.parcial1.tarea1.app.objetos.OperacionMiriamMondragon;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,10 +14,10 @@ import java.util.List;
  *
  * @author Miriam
  */
-public class operacionController {
-    private static List<Operacion> listaOperaciones = new ArrayList<>();
+public class operacionControllerMiriamMondragon {
+    private static List<OperacionMiriamMondragon> listaOperaciones = new ArrayList<>();
     
-    public static void agregarOperacionLista(Operacion operacion){
+    public static void agregarOperacionLista(OperacionMiriamMondragon operacion){
         listaOperaciones.add(operacion);
     }
     
@@ -25,8 +25,13 @@ public class operacionController {
         Object arreglo[][] = new Object[listaOperaciones.size()][3];
         
         int indice = listaOperaciones.size() - 1;
-        for (Operacion operacionTmp : listaOperaciones) {
-            String formula = operacionTmp.getNumero1() + operacionTmp.getSignoOperacion() + operacionTmp.getNumero2();
+        for (OperacionMiriamMondragon operacionTmp : listaOperaciones) {
+            String formula = "";
+            if(operacionTmp.getNumero2() <0){
+                formula = operacionTmp.getNumero1() + operacionTmp.getSignoOperacion() + " (" + operacionTmp.getNumero2() + ")";
+            }else {
+                formula = operacionTmp.getNumero1() + operacionTmp.getSignoOperacion() + operacionTmp.getNumero2();
+            }
             String signoResultado = "";
             if(operacionTmp.getResultado() >= 0){
                 signoResultado = "Positivo";
@@ -51,7 +56,7 @@ public class operacionController {
         }
     }
     
-    public static void reescribirOperacion(int fila, Operacion nuevaOperacion){
+    public static void reescribirOperacion(int fila, OperacionMiriamMondragon nuevaOperacion){
         if(fila >= 0){
             listaOperaciones.set(listaOperaciones.size()-(fila+1), nuevaOperacion);
         }

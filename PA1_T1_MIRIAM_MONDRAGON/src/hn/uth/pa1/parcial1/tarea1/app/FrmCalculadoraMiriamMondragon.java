@@ -5,7 +5,7 @@
  */
 package hn.uth.pa1.parcial1.tarea1.app;
 
-import hn.uth.pa1.parcial1.tarea1.app.objetos.Operacion;
+import hn.uth.pa1.parcial1.tarea1.app.objetos.OperacionMiriamMondragon;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,13 +22,13 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
         FrmBienvenidaMiriamMondragon frameBienvenida = new FrmBienvenidaMiriamMondragon();
         lblNombre.setText(frameBienvenida.nombre);
         actualizarHistorial();
-        lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+        lblCalulosRealizados.setText(String.valueOf(operacionControllerMiriamMondragon.tamanoLista()));
     }
     
     public static double a = 0.0;
     public static double b = 0.0;
     public static double resultado = 0.0;
-    Operacion operacionActual;
+    OperacionMiriamMondragon operacionActual;
     public static int filaSeleccionada = -1;
 
     /**
@@ -82,8 +82,12 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
         lblCalulosRealizados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCalulosRealizados.setText(" ");
 
+        jScrollPane1.setBackground(new java.awt.Color(153, 153, 153));
+
+        tblHistorial.setForeground(new java.awt.Color(102, 102, 102));
         tblHistorial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -97,6 +101,7 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
             }
         ));
         tblHistorial.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblHistorial.setGridColor(new java.awt.Color(153, 153, 153));
         tblHistorial.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblHistorialMouseClicked(evt);
@@ -226,22 +231,21 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(55, 55, 55)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblA)
                     .addComponent(lblB)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(172, 172, 172)
                         .addComponent(lblTitulo))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(lblResultado)
-                            .addGap(18, 18, 18)
-                            .addComponent(lblRespuesta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGap(65, 65, 65)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtA)
-                                .addComponent(txtB, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblResultado)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblRespuesta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtA)
+                            .addComponent(txtB, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48))
@@ -332,7 +336,7 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
                 .addGap(57, 57, 57)
                 .addComponent(lblSaludo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnRegresar)
                 .addGap(42, 42, 42))
@@ -366,10 +370,7 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
             resultado = a + b;
             lblRespuesta.setText(String.valueOf(resultado));
             
-            operacionActual = new Operacion(a, b, "+", resultado);
-            operacionController.agregarOperacionLista(operacionActual);
-            actualizarHistorial();
-            lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+            operacionActual = new OperacionMiriamMondragon(a, b, "+", resultado);
         }else {
             lblRespuesta.setText("");
         }
@@ -383,10 +384,7 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
             resultado = a - b;
             lblRespuesta.setText(String.valueOf(resultado));
             
-            operacionActual = new Operacion(a, b, "-", resultado);
-            operacionController.agregarOperacionLista(operacionActual);
-            actualizarHistorial();
-            lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+            operacionActual = new OperacionMiriamMondragon(a, b, "-", resultado);
         }else {
             lblRespuesta.setText("");
         }
@@ -401,10 +399,7 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
                 resultado = a / b;
                 lblRespuesta.setText(String.valueOf(resultado));
                 
-                operacionActual = new Operacion(a, b, "/", resultado);
-                operacionController.agregarOperacionLista(operacionActual);
-                actualizarHistorial();
-                lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+                operacionActual = new OperacionMiriamMondragon(a, b, "/", resultado);
             }else{
                 lblRespuesta.setText("No Definido");
             }
@@ -421,10 +416,7 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
             resultado = a * b;
             lblRespuesta.setText(String.valueOf(resultado));
             
-            operacionActual = new Operacion(a, b, "*", resultado);
-            operacionController.agregarOperacionLista(operacionActual);
-            actualizarHistorial();
-            lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+            operacionActual = new OperacionMiriamMondragon(a, b, "*", resultado);
         }else {
             lblRespuesta.setText("");
         }
@@ -438,10 +430,7 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
             resultado = Math.pow(a, b);
             lblRespuesta.setText(String.valueOf(resultado));
             
-            operacionActual = new Operacion(a, b, "^", resultado);
-            operacionController.agregarOperacionLista(operacionActual);
-            actualizarHistorial();
-            lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+            operacionActual = new OperacionMiriamMondragon(a, b, "^", resultado);
         }else {
             lblRespuesta.setText("");
         }
@@ -455,15 +444,23 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
 
     private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
         // TODO add your handling code here:
-        operacionController.borrarOperacion(filaSeleccionada);
+        operacionControllerMiriamMondragon.borrarOperacion(filaSeleccionada);
+        filaSeleccionada = -1;
         actualizarHistorial();
-        lblCalulosRealizados.setText(String.valueOf(operacionController.tamanoLista()));
+        lblCalulosRealizados.setText(String.valueOf(operacionControllerMiriamMondragon.tamanoLista()));
     }//GEN-LAST:event_btnQuitarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
-        operacionController.reescribirOperacion(filaSeleccionada, operacionActual);
-        actualizarHistorial();
+        if(filaSeleccionada == -1 && operacionActual != null){
+            operacionControllerMiriamMondragon.agregarOperacionLista(operacionActual);
+            actualizarHistorial();
+        }else{
+            operacionControllerMiriamMondragon.reescribirOperacion(filaSeleccionada, operacionActual);
+            filaSeleccionada = -1;
+            actualizarHistorial();
+        }
+        lblCalulosRealizados.setText(String.valueOf(operacionControllerMiriamMondragon.tamanoLista()));
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     /**
@@ -509,14 +506,14 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
             Double.parseDouble(texto2);
             esNumero = true;
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un número en cada campo");
+            JOptionPane.showMessageDialog(this,"Debe ingresar un número en cada campo");
         }
         return esNumero;
     }
     
     private void actualizarHistorial(){
         tblHistorial.setModel(new javax.swing.table.DefaultTableModel(
-            operacionController.getListaOperacionesComoArreglo(),
+            operacionControllerMiriamMondragon.getListaOperacionesComoArreglo(),
             new String [] {
                 "Operación", "Resultado", "Signo"
             }

@@ -9,13 +9,13 @@ package hn.uth.pa1.parcial1.tarea1.app.objetos;
  *
  * @author Miriam
  */
-public class Operacion {
+public class OperacionMiriamMondragon {
     private double numero1;
     private double numero2;
     private String signoOperacion;
     private double resultado;
 
-    public Operacion(double numero1, double numero2, String signoOperacion, double resultado) {
+    public OperacionMiriamMondragon(double numero1, double numero2, String signoOperacion, double resultado) {
         this.numero1 = numero1;
         this.numero2 = numero2;
         this.signoOperacion = signoOperacion;
