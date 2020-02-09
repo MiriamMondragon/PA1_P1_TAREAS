@@ -113,7 +113,7 @@ public class FrmBienvenidaMiriamMondragon extends javax.swing.JFrame {
         // TODO add your handling code here:
         nombre = txtNombre.getText();
         if(nombre.equals("")){
-            JOptionPane.showMessageDialog(this, "Por favor ingrese su nombre");
+            JOptionPane.showMessageDialog(this, "Por favor ingrese su nombre", "Campos Vacíos", JOptionPane.ERROR_MESSAGE);
         }else {
             FrmCalculadoraMiriamMondragon formularioCalculos = new FrmCalculadoraMiriamMondragon();
             utilMiriamMondragon.mostrarFormulario(formularioCalculos);

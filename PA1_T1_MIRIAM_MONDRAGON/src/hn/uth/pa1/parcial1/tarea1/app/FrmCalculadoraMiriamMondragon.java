@@ -99,9 +99,18 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
             new String [] {
                 "Operación:", "Resultado", "Signo:"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblHistorial.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tblHistorial.setGridColor(new java.awt.Color(153, 153, 153));
+        tblHistorial.setRowSelectionAllowed(true);
         tblHistorial.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblHistorialMouseClicked(evt);
@@ -505,7 +514,7 @@ public class FrmCalculadoraMiriamMondragon extends javax.swing.JFrame {
             Double.parseDouble(texto2);
             esNumero = true;
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Debe ingresar un número en cada campo");
+            JOptionPane.showMessageDialog(this,"Debe ingresar un número en cada campo", "Campos Vacíos o Mal Llenados", JOptionPane.ERROR_MESSAGE);
         }
         return esNumero;
     }
